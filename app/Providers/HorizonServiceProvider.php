@@ -35,8 +35,12 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewHorizon', static function (User $user) {
-            return $user->ownsCurrentWorkspace();
-        });
+        $env = app()->environment();
+        \Illuminate\Support\Facades\Log::debug('Horizon gate evaluated', ['env' => $env]);
+        if (! \Illuminate\Support\Facades\Gate::has('viewHorizon')) {
+            \Illuminate\Support\Facades\Gate::define('viewHorizon', static function (?\App\Models\User $user = null) {
+                return app()->environment(config('extras.environments'));
+            });
+        }
     }
 }

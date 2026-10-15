@@ -29,6 +29,10 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
+        'tooling' => [
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':30,1',
+            \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        ],
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
